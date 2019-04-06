@@ -12,9 +12,9 @@ class LinkType(DjangoObjectType):
 
 class Query(object):
     link = graphene.Field(LinkType,
-                              id=graphene.Int(),
-                              shortLink=graphene.String(),
-                              fullLink=graphene.String())
+                          id=graphene.Int(),
+                          short_link=graphene.String(),
+                          full_link=graphene.String())
 
     all_links = graphene.List(LinkType)
 
@@ -23,16 +23,16 @@ class Query(object):
 
     def resolve_link(self, info, **kwargs):
         id = kwargs.get('id')
-        shortLink = kwargs.get('shortLink')
-        fullLink = kwargs.get('fullLink')
+        short_link = kwargs.get('short_link')
+        full_link = kwargs.get('full_link')
 
         if id is not None:
             return Link.objects.get(pk=id)
 
-        if shortLink is not None:
-            return Link.objects.get(short_link=shortLink)
+        if short_link is not None:
+            return Link.objects.get(short_link=short_link)
 
-        if fullLink is not None:
-            return Link.objects.get(full_link=fullLink)
+        if full_link is not None:
+            return Link.objects.get(full_link=full_link)
 
         return None
