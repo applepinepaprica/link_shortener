@@ -1,6 +1,8 @@
 import graphene
 
 from graphene_django.types import DjangoObjectType
+import string
+import random
 
 from myproject.link_shortener.models import Link
 
@@ -25,6 +27,7 @@ class CreateLink(graphene.Mutation):
     def mutate(root, info, input=None):
         ok = True
         link_instance = Link(full_link=input.fullLink)
+        link_instance.short_link = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(10))
         link_instance.save()
         return CreateLink(ok=ok, link=link_instance)
 
