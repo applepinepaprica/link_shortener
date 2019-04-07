@@ -4,12 +4,17 @@ from graphene_django.types import DjangoObjectType
 import string
 import random
 
-from myproject.link_shortener.models import Link
+from myproject.link_shortener.models import Link, LinkInfo
 
 
 class LinkType(DjangoObjectType):
     class Meta:
         model = Link
+
+
+class LinkInfoType(DjangoObjectType):
+    class Meta:
+        model = LinkInfo
 
 
 class LinkInput(graphene.InputObjectType):
@@ -40,9 +45,15 @@ class Query(graphene.ObjectType):
 
     all_links = graphene.List(LinkType)
 
+    all_link_infos = graphene.List(LinkInfoType)
+
     @staticmethod
     def resolve_all_links(self, info, **kwargs):
         return Link.objects.all()
+
+    @staticmethod
+    def resolve_all_link_infos(self, info, **kwargs):
+        return LinkInfo.objects.all()
 
     @staticmethod
     def resolve_link(self, info, **kwargs):
